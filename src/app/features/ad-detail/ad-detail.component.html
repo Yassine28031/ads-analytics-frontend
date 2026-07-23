@@ -1,1 +1,92 @@
-<p>ad-detail works!</p>
+<div class="detail-container">
+  <button class="btn-back" (click)="goBack()">← Retour</button>
+
+  <!-- Affichage en cas de chargement -->
+  <div *ngIf="isLoading" style="padding: 20px; text-align: center;">
+    <div class="spinner"></div>
+    <p>Chargement des détails...</p>
+  </div>
+
+  <!-- Affichage en cas d'erreur -->
+  <div *ngIf="errorMessage" style="background: #fee; padding: 12px; border-radius: 6px; color: #c00;">
+    ⚠️ {{ errorMessage }}
+    <button (click)="loadAdStats()">Réessayer</button>
+  </div>
+
+  <!-- AFFICHAGE PRINCIPAL -->
+  <div *ngIf="!isLoading && !errorMessage && adData" style="margin-top: 20px;">
+
+    <!-- 1. INFOS DE LA PUBLICITÉ -->
+    <div style="background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+      <h2>{{ adData.ad?.name }}</h2>
+      <p style="color: #555;">{{ adData.ad?.title }}</p>
+      <p>
+        <span style="padding: 4px 12px; border-radius: 20px; background: #d4edda; color: #155724;">
+          {{ adData.ad?.isActive ? 'Actif' : 'Inactif' }}
+        </span>
+        &nbsp;
+        <span style="padding: 4px 12px; border-radius: 20px; background: #fff3cd; color: #856404;">
+          {{ adData.ad?.isPaid ? 'Payante' : 'Gratuite' }}
+        </span>
+      </p>
+    </div>
+
+    <!-- 2. STATISTIQUES GLOBALES -->
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 20px;">
+      <div style="background: white; padding: 16px; border-radius: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); text-align: center;">
+        <div style="font-size: 28px;">👁️</div>
+        <div style="font-size: 20px; font-weight: 700;">{{ formatNumber(adData.stats?.views || 0) }}</div>
+        <div style="font-size: 14px; color: #888;">Vues</div>
+      </div>
+      <div style="background: white; padding: 16px; border-radius: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); text-align: center;">
+        <div style="font-size: 28px;">🖱️</div>
+        <div style="font-size: 20px; font-weight: 700;">{{ formatNumber(adData.stats?.clicks || 0) }}</div>
+        <div style="font-size: 14px; color: #888;">Clics</div>
+      </div>
+      <div style="background: linear-gradient(135deg, #667eea, #764ba2); padding: 16px; border-radius: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); text-align: center; color: white;">
+        <div style="font-size: 28px;">📈</div>
+        <div style="font-size: 20px; font-weight: 700;">{{ adData.stats?.ctr || '0%' }}</div>
+        <div style="font-size: 14px; opacity: 0.8;">CTR</div>
+      </div>
+    </div>
+
+    <!-- 3. PERFORMANCE PAR JOUR -->
+    <div style="margin-top: 24px; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+      <h3>📅 Performance par jour</h3>
+      <table style="width: 100%; border-collapse: collapse; margin-top: 12px;">
+        <thead>
+          <tr style="background: #f8f9fa; border-bottom: 2px solid #e0e0e0;">
+            <th style="padding: 8px 12px; text-align: left;">Date</th>
+            <th style="padding: 8px 12px; text-align: left;">Vues</th>
+            <th style="padding: 8px 12px; text-align: left;">Clics</th>
+            <th style="padding: 8px 12px; text-align: left;">CTR</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let day of adData.stats?.daily || []" style="border-bottom: 1px solid #f0f0f0;">
+            <td style="padding: 8px 12px;">{{ day._id }}</td>
+            <td style="padding: 8px 12px;">{{ formatNumber(day.views) }}</td>
+            <td style="padding: 8px 12px;">{{ formatNumber(day.clicks) }}</td>
+            <td style="padding: 8px 12px;">
+              <span style="padding: 2px 10px; border-radius: 20px; background: #d4edda; color: #155724;">
+                {{ getDailyCTR(day.views, day.clicks) }}
+              </span>
+            </td>
+          </tr>
+          <tr *ngIf="(adData.stats?.daily || []).length === 0">
+            <td colspan="4" style="padding: 20px; text-align: center; color: #999;">
+              Aucune donnée journalière disponible
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 4. BOUTON DE RAFRAÎCHISSEMENT MANUEL -->
+    <div style="margin-top: 20px; text-align: center;">
+      <button (click)="loadAdStats()" style="padding: 8px 20px; background: #667eea; color: white; border: none; border-radius: 8px; cursor: pointer;">
+        🔄 Rafraîchir les données
+      </button>
+    </div>
+  </div>
+</div>
