@@ -1,0 +1,411 @@
+/* Container principal */
+.dashboard-container {
+  min-height: 100vh;
+  background: #f0f2f5;
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Header */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  padding: 20px 30px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  margin-bottom: 24px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header-left h1 {
+  font-size: 24px;
+  color: #1a1a2e;
+  margin: 0;
+}
+
+.badge {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.header-right {
+  display: flex;
+  gap: 12px;
+}
+
+.btn-refresh {
+  background: #e8f0fe;
+  color: #1a73e8;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.3s;
+}
+
+.btn-refresh:hover {
+  background: #d2e3fc;
+}
+
+.btn-logout {
+  background: #fee8e8;
+  color: #e74c3c;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.3s;
+}
+
+.btn-logout:hover {
+  background: #fdd0d0;
+}
+
+/* Loader */
+.loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 0;
+}
+
+.spinner {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #667eea;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loader p {
+  margin-top: 16px;
+  color: #666;
+}
+
+/* Erreur */
+.error-box {
+  background: #fee8e8;
+  color: #e74c3c;
+  padding: 16px 24px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.error-box button {
+  background: #e74c3c;
+  color: white;
+  border: none;
+  padding: 6px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* Statistiques */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.stat-card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.stat-card-ctr {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.stat-card-ctr .stat-label {
+  color: rgba(255,255,255,0.8);
+}
+
+.stat-card-ctr .stat-value {
+  color: white;
+}
+
+.stat-icon {
+  font-size: 28px;
+  line-height: 1;
+}
+
+.stat-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-label {
+  font-size: 13px;
+  color: #888;
+}
+
+.stat-value {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1a1a2e;
+}
+
+.ctr-value {
+  color: white !important;
+}
+
+/* Filtres */
+.filters-bar {
+  background: white;
+  padding: 16px 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.search-input {
+  padding: 8px 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  min-width: 220px;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.filter-label {
+  font-size: 13px;
+  color: #666;
+}
+
+.filter-select {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 13px;
+  background: white;
+  cursor: pointer;
+}
+
+.filter-count {
+  font-size: 13px;
+  color: #666;
+  font-weight: 500;
+}
+
+/* Tableau */
+.ads-table-container {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  overflow: hidden;
+}
+
+.ads-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.ads-table thead {
+  background: #f8f9fa;
+}
+
+.ads-table th {
+  padding: 14px 16px;
+  text-align: left;
+  font-size: 13px;
+  font-weight: 600;
+  color: #555;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.ads-table td {
+  padding: 14px 16px;
+  font-size: 14px;
+  border-bottom: 1px solid #f0f0f0;
+  vertical-align: middle;
+}
+
+.clickable-row {
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.clickable-row:hover {
+  background: #f8f9ff;
+}
+
+.ad-name {
+  font-weight: 600;
+  color: #1a1a2e;
+}
+
+.ad-title {
+  color: #555;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.ctr-badge {
+  display: inline-block;
+  padding: 2px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.ctr-badge.high {
+  background: #d4edda;
+  color: #28a745;
+}
+
+.ctr-badge.medium {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.ctr-badge.low {
+  background: #f8d7da;
+  color: #dc3545;
+}
+
+/* Actions */
+.action-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-action {
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: transform 0.2s, background 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-action:hover {
+  transform: scale(1.1);
+}
+
+.btn-view {
+  background: #e8f0fe;
+  color: #1a73e8;
+}
+
+.btn-view:hover {
+  background: #d2e3fc;
+}
+
+.btn-click {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.btn-click:hover {
+  background: #ffe69b;
+}
+
+.btn-detail {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.btn-detail:hover {
+  background: #c8e6c9;
+}
+
+.empty-message {
+  text-align: center;
+  padding: 40px !important;
+  color: #999;
+  font-size: 16px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .dashboard-header {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .filters-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-input {
+    min-width: auto;
+  }
+
+  .ads-table-container {
+    overflow-x: auto;
+  }
+
+  .ads-table {
+    font-size: 12px;
+  }
+
+  .ads-table th,
+  .ads-table td {
+    padding: 10px 12px;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+  }
+}

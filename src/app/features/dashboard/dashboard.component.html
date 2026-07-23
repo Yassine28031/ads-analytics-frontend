@@ -1,0 +1,169 @@
+<div class="dashboard-container">
+  <!-- Header -->
+  <header class="dashboard-header">
+    <div class="header-left">
+      <h1>📊 Tableau de bord Ads Analytics</h1>
+      <span class="badge">Admin</span>
+    </div>
+    <div class="header-right">
+      <button class="btn-refresh" (click)="refreshData()">🔄 Rafraîchir</button>
+      <button class="btn-logout" (click)="logout()">🔓 Déconnexion</button>
+    </div>
+  </header>
+
+  <!-- Loader -->
+  <div *ngIf="isLoading" class="loader">
+    <div class="spinner"></div>
+    <p>Chargement des données...</p>
+  </div>
+
+  <!-- Erreur -->
+  <div *ngIf="errorMessage" class="error-box">
+    ⚠️ {{ errorMessage }}
+    <button (click)="refreshData()">Réessayer</button>
+  </div>
+
+  <!-- Données -->
+  <div *ngIf="!isLoading && !errorMessage && overviewData">
+    
+    <!-- Cartes de statistiques -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon">👥</div>
+        <div class="stat-content">
+          <span class="stat-label">Utilisateurs</span>
+          <span class="stat-value">{{ overviewData?.overview?.totalUsers || 0 }}</span>
+        </div>
+      </div>
+      
+      <div class="stat-card">
+        <div class="stat-icon">📢</div>
+        <div class="stat-content">
+          <span class="stat-label">Publicités</span>
+          <span class="stat-value">{{ overviewData?.overview?.totalAds || 0 }}</span>
+        </div>
+      </div>
+      
+      <div class="stat-card">
+        <div class="stat-icon">👁️</div>
+        <div class="stat-content">
+          <span class="stat-label">Vues totales</span>
+          <span class="stat-value">{{ formatNumber(overviewData?.overview?.totalViews || 0) }}</span>
+        </div>
+      </div>
+      
+      <div class="stat-card">
+        <div class="stat-icon">🖱️</div>
+        <div class="stat-content">
+          <span class="stat-label">Clics totaux</span>
+          <span class="stat-value">{{ formatNumber(overviewData?.overview?.totalClicks || 0) }}</span>
+        </div>
+      </div>
+      
+      <div class="stat-card stat-card-ctr">
+        <div class="stat-icon">📈</div>
+        <div class="stat-content">
+          <span class="stat-label">CTR Global</span>
+          <span class="stat-value">{{ overviewData?.overview?.globalCTR || '0%' }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filtres -->
+    <div class="filters-bar">
+      <div class="filter-group">
+        <input 
+          type="text" 
+          [(ngModel)]="searchTerm" 
+          placeholder="🔍 Rechercher une publicité..." 
+          class="search-input" 
+        />
+      </div>
+      <div class="filter-group">
+        <span class="filter-label">Résultats :</span>
+        <span class="filter-count">{{ getFilteredAds().length }} publicité(s)</span>
+      </div>
+      <div class="filter-group" *ngIf="getFilteredAds().length === 0 && searchTerm">
+        <span class="filter-empty">Aucune publicité ne correspond à votre recherche</span>
+      </div>
+    </div>
+
+    <!-- Tableau des publicités -->
+    <div class="ads-table-container">
+      <table class="ads-table">
+        <thead>
+          <tr>
+            <th>Publicité</th>
+            <th>Titre</th>
+            <th class="text-center">Vues</th>
+            <th class="text-center">Clics</th>
+            <th class="text-center">CTR</th>
+            <th class="text-center">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr 
+            *ngFor="let ad of getFilteredAds()" 
+            (click)="viewAdDetails(ad._id)" 
+            class="clickable-row"
+          >
+            <td>
+              <span class="ad-name">{{ ad.adName }}</span>
+            </td>
+            <td class="ad-title">{{ ad.adTitle }}</td>
+            <td class="text-center">{{ formatNumber(ad.views) }}</td>
+            <td class="text-center">{{ formatNumber(ad.clicks) }}</td>
+            <td class="text-center">
+              <span class="ctr-badge" [class]="getCTRColor(ad.ctr)">
+                {{ ad.ctr }}
+              </span>
+            </td>
+            <td>
+              <div class="action-buttons">
+                <button 
+                  class="btn-action btn-view" 
+                  (click)="addView(ad._id, $event)" 
+                  title="Ajouter une vue"
+                >
+                  👁️
+                </button>
+                <button 
+                  class="btn-action btn-click" 
+                  (click)="addClick(ad._id, $event)" 
+                  title="Ajouter un clic"
+                >
+                  🖱️
+                </button>
+                <button 
+                  class="btn-action btn-detail" 
+                  (click)="viewAdDetails(ad._id)" 
+                  title="Voir les détails"
+                >
+                  📊
+                </button>
+              </div>
+            </td>
+          </tr>
+          
+          <!-- Message si aucune publicité -->
+          <tr *ngIf="getFilteredAds().length === 0">
+            <td colspan="6" class="empty-message">
+              <div class="empty-state">
+                <span class="empty-icon">📭</span>
+                <p>Aucune publicité trouvée</p>
+                <p class="empty-sub" *ngIf="searchTerm">Essayez de modifier votre recherche</p>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <!-- Pied de tableau -->
+    <div class="table-footer" *ngIf="ads.length > 0">
+      <span>
+        Affichage de {{ getFilteredAds().length }} publicité(s) sur {{ ads.length }} au total
+      </span>
+    </div>
+  </div>
+</div>

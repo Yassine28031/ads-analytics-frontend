@@ -1,0 +1,46 @@
+<div class="login-container">
+  <div class="login-card">
+    <div class="login-header">
+      <h1>📊 Ads Analytics</h1>
+      <p>Connectez-vous à votre tableau de bord</p>
+    </div>
+
+    <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          [(ngModel)]="email"
+          placeholder="admin@example.com"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="password">Mot de passe</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          [(ngModel)]="password"
+          placeholder="********"
+          required
+        />
+      </div>
+
+      <div *ngIf="errorMessage" class="error-message">
+        ⚠️ {{ errorMessage }}
+      </div>
+
+      <button type="submit" [disabled]="isLoading">
+        {{ isLoading ? 'Connexion en cours...' : 'Se connecter' }}
+      </button>
+    </form>
+
+    <div class="login-footer">
+      <small>Pour tester : admin@admin.com / admin123</small>
+    </div>
+  </div>
+</div>
